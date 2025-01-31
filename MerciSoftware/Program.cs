@@ -14,6 +14,19 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllerRoute
+    (
+        name: "logincustom",
+        pattern: "login",
+        defaults: new { controller = "Account", action = "Login" }
+    );
+
+    endpoints.MapDefaultControllerRoute();
+});
+
+
 app.UseAuthorization();
 
 app.MapControllerRoute(

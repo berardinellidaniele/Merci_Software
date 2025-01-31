@@ -4,9 +4,16 @@ namespace MerciSoftware.Controllers
 {
     public class AccountController : Controller
     {
-        public IActionResult Index()
+        [Route("/login")]  
+        public IActionResult Login()
         {
             return View();
+        }
+
+        [Route("/register")]  
+        public IActionResult Register()
+        {
+            return View("Login");  
         }
     }
 }
