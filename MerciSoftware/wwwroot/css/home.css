@@ -1,0 +1,2 @@
+﻿.bottone-login { position: absolute; top: 20px; right: 20px; background-color: #28a745; color: #fff; padding: 10px 20px; border-radius: 8px; text-decoration: none; font-size: 16px; font-weight: 700; transition: all 0.3s; box-shadow: 0 4px 6px rgb(0 0 0 / 10%); }
+.bottone-login:hover { background-color: #218838; transform: scale(1.1); }
