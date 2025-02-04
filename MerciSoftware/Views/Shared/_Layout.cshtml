@@ -7,12 +7,16 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/home.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">MerciSoftware</a>
+        <nav class="navbar navbar-layout navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark border-bottom box-shadow mb-3">
+<div class="container-fluid">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
+                    <i class="fas fa-plane-departure"></i> MerciSoftware
+                </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -20,14 +24,58 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link text-white" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white" asp-area="" asp-controller="Controlli" asp-action="Index">Controlli</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white" asp-area="" asp-controller="Passeggeri" asp-action="Index">Passeggeri</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white" asp-area="" asp-controller="Merce" asp-action="Index">Merce</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white" asp-area="" asp-controller="Segnalazioni" asp-action="Index">Segnalazioni</a>
                         </li>
                     </ul>
                 </div>
-                <a href="/login" class="bottone-login">Login</a>
+                <a href="/login" class="btn btn-outline-light">
+                    <i class="fas fa-sign-in-alt"></i> Login
+                </a>
             </div>
         </nav>
     </header>
+
+    <div class="main-content">
+        <div class="welcome-section">
+            <h1>Benvenuto, <span id="userName">Admin</span></h1>
+            <p id="currentDate"></p>
+        </div>
+
+        <div class="stats-container">
+            <div class="stat-card">
+                <i class="fas fa-users"></i>
+                <h3>Utenti registrati</h3>
+                <p id="registeredUsers">0</p>
+            </div>
+            <div class="stat-card">
+                <i class="fas fa-passport"></i>
+                <h3>Passeggeri controllati</h3>
+                <p id="passengersChecked">0</p>
+            </div>
+            <div class="stat-card">
+                <i class="fas fa-box-open"></i>
+                <h3>Merci requisite/respinte</h3>
+                <p id="goodsSeized">0</p>
+            </div>
+            <div class="stat-card">
+                <i class="fas fa-coins"></i>
+                <h3>Dazi doganali riscossi</h3>
+                <p id="customsDuties">€0.00</p>
+            </div>
+        </div>
+    </div>
 
     <div class="container">
         <main role="main" class="pb-3">
@@ -35,11 +83,21 @@
         </main>
     </div>
 
-   
-
+    <!-- Scripts -->
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script>
+        const dateElement = document.getElementById('currentDate');
+        const today = new Date();
+        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        dateElement.textContent = today.toLocaleDateString('it-IT', options);
+
+        document.getElementById('registeredUsers').textContent = '120';
+        document.getElementById('passengersChecked').textContent = '1,450';
+        document.getElementById('goodsSeized').textContent = '45';
+        document.getElementById('customsDuties').textContent = '€12,340.00';
+    </script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

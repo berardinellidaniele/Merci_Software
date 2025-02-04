@@ -16,8 +16,13 @@ app.UseRouting();
 
 app.UseEndpoints(endpoints =>
 {
-    endpoints.MapControllerRoute
-    (
+    endpoints.MapControllerRoute(
+        name: "register",
+        pattern: "register",
+        defaults: new { controller = "Account", action = "Register" }
+    );
+
+    endpoints.MapControllerRoute(
         name: "logincustom",
         pattern: "login",
         defaults: new { controller = "Account", action = "Login" }
@@ -26,13 +31,10 @@ app.UseEndpoints(endpoints =>
     endpoints.MapDefaultControllerRoute();
 });
 
-
 app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
-
-
 
 app.Run();
