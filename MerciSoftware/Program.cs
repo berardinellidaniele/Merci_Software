@@ -1,36 +1,33 @@
+using MerciSoftware.Middleware;
+using MerciSoftware.Models;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+var configuration = builder.Configuration;
+builder.Services.AddSingleton(configuration);
+
 builder.Services.AddControllersWithViews();
+builder.Services.AddSingleton<Database>();
+
+builder.Services.AddDistributedMemoryCache(); 
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
 }
+
 app.UseStaticFiles();
-
 app.UseRouting();
-
-app.UseEndpoints(endpoints =>
-{
-    endpoints.MapControllerRoute(
-        name: "register",
-        pattern: "register",
-        defaults: new { controller = "Account", action = "Register" }
-    );
-
-    endpoints.MapControllerRoute(
-        name: "logincustom",
-        pattern: "login",
-        defaults: new { controller = "Account", action = "Login" }
-    );
-
-    endpoints.MapDefaultControllerRoute();
-});
-
+app.UseSession(); 
+app.UseMiddleware<AutenticazioneMiddleware>(); 
 app.UseAuthorization();
 
 app.MapControllerRoute(

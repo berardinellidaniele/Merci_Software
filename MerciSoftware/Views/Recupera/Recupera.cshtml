@@ -1,0 +1,33 @@
+﻿@{
+    ViewData["Title"] = "Recupera Password";
+    Layout = "~/Views/Shared/_LayoutLogin.cshtml";
+}
+
+<div class="container recupera-container">
+    <div class="form-container">
+        <form action="/recupera" method="post">
+            <h1>Recupera Password</h1>
+
+            @if (ViewBag.Errore != null)
+            {
+                <p class="error-message">@ViewBag.Errore</p>
+            }
+
+            @if (ViewBag.Successo != null)
+            {
+                <p class="success-message">@ViewBag.Successo</p>
+            }
+
+            <input type="email" id="email" name="email" placeholder="Inserisci la tua email" required />
+            <button type="submit">Invia</button>
+
+            <a href="/login" class="back-link">Torna al login</a>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/recupera.js" asp-append-version="true"></script>
+}
+
+<link rel="stylesheet" href="~/css/recupera.css" />

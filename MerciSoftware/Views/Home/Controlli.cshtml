@@ -1,0 +1,134 @@
+﻿@model Tuple<List<MerciSoftware.Models.Controllo>, List<MerciSoftware.Models.PuntoControllo>, List<MerciSoftware.Models.Addetto>, List<MerciSoftware.Models.Passeggero>>
+
+@{
+    ViewData["Title"] = "Controlli";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var controlli = Model?.Item1 ?? new List<MerciSoftware.Models.Controllo>();
+    var puntiControllo = Model?.Item2 ?? new List<MerciSoftware.Models.PuntoControllo>();
+    var addetti = Model?.Item3 ?? new List<MerciSoftware.Models.Addetto>();
+    var passeggeri = Model?.Item4 ?? new List<MerciSoftware.Models.Passeggero>();
+}
+
+<link rel="stylesheet" href="~/css/controlli.css" asp-append-version="true" />
+
+<div class="controlli-container">
+    <!-- Sezione Visualizza Controlli -->
+    <div class="visualizza-controlli">
+        <h2>Controlli Esistenti 🛃</h2>
+        <table class="controlli-table">
+            <thead>
+                <tr>
+                    <th>ID Controllo</th>
+                    <th>Punto Controllo</th>
+                    <th>ID Addetto</th>
+                    <th>Data e Ora Inizio</th>
+                    <th>Data e Ora Fine</th>
+                    <th>Esito</th>
+                    <th>Dazio Doganale</th>
+                    <th>Note</th>
+                    <th>Azioni</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (controlli.Any())
+                {
+                    @foreach (var controllo in controlli)
+                    {
+                        <tr>
+                            <td>@controllo.ID_Controllo</td>
+                            <td>@controllo.ID_PuntoControllo</td>
+                            <td>@controllo.ID_Addetto</td>
+                            <td>@controllo.dataora_inizio.ToString("yyyy-MM-dd HH:mm")</td>
+                            <td>@controllo.dataora_fine.ToString("yyyy-MM-dd HH:mm")</td>
+                            <td>@controllo.esito</td>
+                            <td>€@controllo.dazio_doganale.ToString("0.00")</td>
+                            <td>@controllo.note</td>
+                            <td>
+                                <button class="btn-modifica" onclick="modificaControllo(@controllo.ID_Controllo)">Modifica ✏️</button>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="9" class="text-center">Nessun controllo registrato</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Sezione Ammontare Dazi Doganali -->
+    <div class="dazi-container">
+        <h2>Ammontare Dazi Doganali per Punto di Controllo 💰</h2>
+        <table class="dazi-table">
+            <thead>
+                <tr>
+                    <th>Punto Controllo</th>
+                    <th>Totale Dazio Doganale</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (puntiControllo.Any())
+                {
+                    @foreach (var punto in puntiControllo)
+                    {
+                        var totaleDazio = controlli.Where(c => c.ID_PuntoControllo == punto.ID_PuntoControllo).Sum(c => c.dazio_doganale);
+                        <tr>
+                            <td>@punto.nome</td>
+                            <td>€@totaleDazio.ToString("0.00")</td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="2" class="text-center">Nessun punto di controllo registrato</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Sezione Passeggeri Controllati -->
+    <div class="passeggeri-controllati">
+        <h2>Passeggeri Controllati nella Giornata ✈️</h2>
+        <table class="passeggeri-table">
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>Cognome</th>
+                    <th>Numero Documento</th>
+                    <th>Punto Controllo</th>
+                    <th>Data Controllo</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (passeggeri.Any())
+                {
+                    @foreach (var passeggero in passeggeri)
+                    {
+                        <tr>
+                            <td>@passeggero.nome</td>
+                            <td>@passeggero.cognome</td>
+                            <td>@passeggero.num_documento</td>
+                            <td>@controlli.FirstOrDefault(c => c.ID_Passeggero == passeggero.ID_Passeggero)?.ID_PuntoControllo</td>
+                            <td>@controlli.FirstOrDefault(c => c.ID_Passeggero == passeggero.ID_Passeggero)?.dataora_inizio.ToString("yyyy-MM-dd HH:mm")</td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="5" class="text-center">Nessun passeggero controllato oggi</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+<script src="~/js/controlli.js"></script>

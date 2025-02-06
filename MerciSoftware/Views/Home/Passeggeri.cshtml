@@ -1,0 +1,104 @@
+﻿@model List<MerciSoftware.Models.Passeggero>
+
+@{
+    ViewData["Title"] = "Passeggeri";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link rel="stylesheet" href="~/css/passeggeri.css" asp-append-version="true" />
+
+<div class="visualizza-passeggeri">
+    <h2>Passeggeri Registrati ⏺️</h2>
+    <table class="passeggeri-table">
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Cognome</th>
+                <th>Nazionalità</th>
+                <th>Numero Documento</th>
+                <th>Aeroporto Provenienza</th>
+                <th>Aeroporto Destinazione</th>
+                <th>Motivo Viaggio</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null && Model.Any())
+            {
+                @foreach (var passeggero in Model)
+                {
+                    <tr>
+                        <td>@passeggero.nome</td>
+                        <td>@passeggero.cognome</td>
+                        <td>@passeggero.nazionalita</td>
+                        <td>@passeggero.num_documento</td>
+                        <td>@passeggero.aeroporto_provenienza</td>
+                        <td>@passeggero.aeroporto_destinazione</td>
+                        <td>@passeggero.motivo_viaggio</td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="7" class="text-center">Nessun passeggero registrato</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<!-- Sezione Aggiungi Passeggero -->
+<div class="aggiungi-passeggero">
+    <h2>Aggiungi un Nuovo Passeggero ➕</h2>
+    <form class="passeggero-form" id="passeggeroForm" method="post" action="/Home/AggiungiPasseggero">
+        <div class="form-group">
+            <label for="nome">Nome</label>
+            <input type="text" id="nome" name="nome" required>
+        </div>
+        <div class="form-group">
+            <label for="cognome">Cognome</label>
+            <input type="text" id="cognome" name="cognome" required>
+        </div>
+        <div class="form-group">
+            <label for="nazionalita">Nazionalità</label>
+            <input type="text" id="nazionalita" name="nazionalita" required>
+        </div>
+        <div class="form-group">
+            <label for="num_documento">Numero Documento</label>
+            <input type="text" id="num_documento" name="num_documento" required>
+        </div>
+        <div class="form-group">
+            <label for="aeroporto_provenienza">Aeroporto Provenienza</label>
+            <input type="text" id="aeroporto_provenienza" name="aeroporto_provenienza" required>
+        </div>
+        <div class="form-group">
+            <label for="aeroporto_destinazione">Aeroporto Destinazione</label>
+            <input type="text" id="aeroporto_destinazione" name="aeroporto_destinazione" required>
+        </div>
+        <div class="form-group">
+            <label for="motivo_viaggio">Motivo Viaggio</label>
+            <input type="text" id="motivo_viaggio" name="motivo_viaggio" required>
+        </div>
+        <button type="submit" class="btn-aggiungi">Aggiungi Passeggero</button>
+    </form>
+
+
+
+    @if (ViewBag.Successo != null)
+    {
+        <div class="alert alert-success">
+            @ViewBag.Successo
+        </div>
+    }
+
+    @if (ViewBag.Errore != null)
+    {
+        <div class="alert alert-danger">
+            @ViewBag.Errore
+        </div>
+    }
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="~/js/passeggeri.js"></script>
+    

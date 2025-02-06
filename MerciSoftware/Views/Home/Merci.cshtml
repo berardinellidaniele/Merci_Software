@@ -1,0 +1,176 @@
+﻿@model Tuple<List<MerciSoftware.Models.Merce>, List<MerciSoftware.Models.SequestroMerce>>
+
+@{
+    ViewData["Title"] = "Merce";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var merci = Model.Item1;      // Lista delle merci
+    var sequestri = Model.Item2;  // Lista dei sequestri
+}
+
+<link rel="stylesheet" href="~/css/merci.css" asp-append-version="true" />
+
+<div class="merci-container">
+    <!-- Sezione Visualizza Merce -->
+    <div class="visualizza-merci">
+        <h2>Merce Registrata 📦</h2>
+        <table class="merci-table">
+            <thead>
+                <tr>
+                    <th>ID Merce</th>
+                    <th>Categoria</th>
+                    <th>Descrizione</th>
+                    <th>Quantità</th>
+                    <th>ID Passeggero</th>
+                </tr>
+            </thead>
+            <tbody>
+                 @if (Model != null && merci.Any())
+                {
+                    @foreach (var merce in merci)
+                    {
+                        <tr>
+                            <td>@merce.ID_Merce</td>
+                            <td>@merce.categoria</td>
+                            <td>@merce.descrizione</td>
+                            <td>@merce.quantita</td>
+                            <td>@merce.ID_Passeggero</td>
+                        </tr>
+                    }
+                   }
+                else
+                {
+                    <tr>
+                        <td colspan="5" class="text-center">Nessuna merce registrata</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <div class="visualizza-sequestri">
+        <h2>Merce Sequestrata 🚫</h2>
+        <table class="sequestri-table">
+            <thead>
+                <tr>
+                    <th>ID Sequestro</th>
+                    <th>Data e Ora Sequestro</th>
+                    <th>Motivo</th>
+                    <th>Stato</th>
+                    <th>ID Controllo</th>
+                    <th>ID Merce</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (sequestri != null && sequestri.Any())
+                {
+                    @foreach (var sequestro in sequestri) 
+                    {
+                        <tr>
+                            <td>@sequestro.ID_Sequestro</td>
+                            <td>@sequestro.motivo</td>
+                            <td>@sequestro.stato</td>
+                            <td>@sequestro.ID_Controllo</td>
+                            <td>@sequestro.ID_Merce</td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="6" class="text-center">Nessun sequestro registrato</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+
+    <!-- Sezione Aggiungi Merce -->
+<div class="aggiungi-merce">
+    <h2>Aggiungi Nuova Merce ➕</h2>
+    <form class="merce-form" id="merceForm" method="post" action="/Home/AggiungiMerce">
+        <div class="form-group">
+            <label for="categoria">Categoria</label>
+            <input type="text" id="categoria" name="categoria" required>
+            <span class="error-message" id="categoriaError"></span>
+        </div>
+        <div class="form-group">
+            <label for="descrizione">Descrizione</label>
+            <input type="text" id="descrizione" name="descrizione" required>
+            <span class="error-message" id="descrizioneError"></span>
+        </div>
+        <div class="form-group">
+            <label for="quantita">Quantità</label>
+            <input type="number" id="quantita" name="quantita" required>
+            <span class="error-message" id="quantitaError"></span>
+        </div>
+        <div class="form-group">
+            <label for="idPasseggero">ID Passeggero</label>
+            <input type="number" id="ID_Passeggero" name="ID_Passeggero" required>
+            <span class="error-message" id="idPasseggeroError"></span>
+        </div>
+        <button type="submit" class="btn-aggiungi">Aggiungi Merce</button>
+    </form>
+</div>
+
+    @if (ViewBag.Successo != null)
+    {
+        <div class="alert alert-success">
+            @ViewBag.Successo
+        </div>
+    }
+
+    @if (ViewBag.Errore != null)
+    {
+        <div class="alert alert-danger">
+            @ViewBag.Errore
+        </div>
+    }
+</div>
+
+
+
+<!-- Sezione Segnala Sequestro -->
+<!-- Sezione Segnala Sequestro -->
+<div class="segnala-sequestro">
+    <h2>Segnala Sequestro 🚨</h2>
+    <form class="sequestro-form" id="sequestroForm" method="post" action="/Home/AggiungiSequestro">
+        <div class="form-group">
+            <label for="data_ora_sequestro">Data e Ora Sequestro</label>
+            <input type="datetime-local" id="data_ora_sequestro" name="data_ora_sequestro" required>
+            <span class="error-message" id="dataOraSequestroError"></span>
+        </div>
+        <div class="form-group">
+            <label for="motivo">Motivo</label>
+            <input type="text" id="motivo" name="motivo" required>
+            <span class="error-message" id="motivoError"></span>
+        </div>
+        <div class="form-group">
+            <label for="stato">Stato</label>
+            <select id="stato" name="stato" required>
+                <option value="">Seleziona uno stato</option>
+                <option value="In corso">In corso ⏳</option>
+                <option value="Risolto">Risolto ✅</option>
+                <option value="Archiviato">Archiviato 📁</option>
+            </select>
+            <span class="error-message" id="statoError"></span>
+        </div>
+        <div class="form-group">
+            <label for="ID_Controllo">ID Controllo</label>
+            <input type="number" id="ID_Controllo" name="ID_Controllo" required>
+            <span class="error-message" id="idControlloError"></span>
+        </div>
+        <div class="form-group">
+            <label for="ID_Merce">ID Merce</label>
+            <input type="number" id="ID_Merce" name="ID_Merce" required>
+            <span class="error-message" id="idMerceError"></span>
+        </div>
+        <button type="submit" class="btn-segnala">Segnala Sequestro</button>
+    </form>
+</div>
+
+
+
+
+
+<script src="~/js/merci.js"></script>

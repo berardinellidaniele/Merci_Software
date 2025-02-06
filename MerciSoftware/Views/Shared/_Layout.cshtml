@@ -13,7 +13,7 @@
 <body>
     <header>
         <nav class="navbar navbar-layout navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark border-bottom box-shadow mb-3">
-<div class="container-fluid">
+            <div class="container-fluid">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
                     <i class="fas fa-plane-departure"></i> MerciSoftware
                 </a>
@@ -27,29 +27,46 @@
                             <a class="nav-link text-white" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-white" asp-area="" asp-controller="Controlli" asp-action="Index">Controlli</a>
+                            <a class="nav-link text-white" asp-area="" asp-controller="Home" asp-action="Controlli">Controlli</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-white" asp-area="" asp-controller="Passeggeri" asp-action="Index">Passeggeri</a>
+                            <a class="nav-link text-white" asp-area="" asp-controller="Home" asp-action="Passeggeri">Passeggeri</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-white" asp-area="" asp-controller="Merce" asp-action="Index">Merce</a>
+                            <a class="nav-link text-white" asp-area="" asp-controller="Home" asp-action="Merci">Merce</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-white" asp-area="" asp-controller="Segnalazioni" asp-action="Index">Segnalazioni</a>
+                            <a class="nav-link text-white" asp-area="" asp-controller="Home" asp-action="Segnalazioni">Segnalazioni</a>
                         </li>
                     </ul>
                 </div>
-                <a href="/login" class="btn btn-outline-light">
-                    <i class="fas fa-sign-in-alt"></i> Login
-                </a>
+
+                <!-- ✅ Bottone Logout visibile solo se l'utente è loggato -->
+                @if (Context.Session.GetString("FunzionarioLoggato") != null)
+                {
+                    <a href="/logout" class="btn btn-outline-light">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </a>
+                }
+                else
+                {
+                    <a href="/login" class="btn btn-outline-light">
+                        <i class="fas fa-sign-in-alt"></i> Login
+                    </a>
+                }
             </div>
         </nav>
     </header>
 
+    <!-- ✅ Sezione Benvenuto con il nome dinamico -->
     <div class="main-content">
         <div class="welcome-section">
-            <h1>Benvenuto, <span id="userName">Admin</span></h1>
+            <h1>
+                Benvenuto
+                <span id="userName">
+                    @(Context.Session.GetString("FunzionarioLoggato") ?? "👋")
+                </span>
+            </h1>
             <p id="currentDate"></p>
         </div>
 
@@ -77,6 +94,7 @@
         </div>
     </div>
 
+    <!-- Container per il contenuto dinamico -->
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
@@ -88,11 +106,13 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script>
+        // Aggiorna la data corrente
         const dateElement = document.getElementById('currentDate');
         const today = new Date();
         const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
         dateElement.textContent = today.toLocaleDateString('it-IT', options);
 
+        // Simula dati dinamici (da sostituire con chiamate API reali)
         document.getElementById('registeredUsers').textContent = '120';
         document.getElementById('passengersChecked').textContent = '1,450';
         document.getElementById('goodsSeized').textContent = '45';

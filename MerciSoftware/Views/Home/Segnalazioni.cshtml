@@ -1,0 +1,76 @@
+﻿@model List<MerciSoftware.Models.Segnalazione>
+
+@{
+    ViewData["Title"] = "Segnalazioni";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link rel="stylesheet" href="~/css/segnalazioni.css" asp-append-version="true" />
+
+<div class="segnalazioni-section">
+    <h2>Segnalazioni 🚨</h2>
+    <div class="segnalazioni-container">
+        <div class="visualizza-segnalazioni">
+            <h3>Segnalazioni Esistenti</h3>
+            <table class="segnalazioni-table">
+                <thead>
+                    <tr>
+                        <th>Tipologia</th>
+                        <th>Stato</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null && Model.Any())
+                    {
+                        @foreach (var segnalazione in Model)
+                        {
+                            <tr>
+                                <td>@segnalazione.tipologia</td>
+                                <td>@segnalazione.stato</td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="2" class="text-center">Nessuna segnalazione registrata</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <div class="aggiungi-segnalazione">
+            <h3>Aggiungi Nuova Segnalazione ➕</h3>
+            <form class="segnalazione-form" id="segnalazioneForm" method="post" action="/Home/AggiungiSegnalazione">
+                <div class="form-group">
+                    <label for="tipologia">Tipologia</label>
+                    <select id="tipologia" name="tipologia" required>
+                        <option value="">Seleziona una tipologia</option>
+                        <option value="Merce Sospetta">Merce sospetta</option>
+                        <option value="Documentazione Incompleta">Documentazione incompleta</option>
+                        <option value="Comportamento_Sospetto">Comportamento sospetto</option>
+                        <option value="Merce non dichiarata">Merce non dichiarata</option>
+                    </select>
+                    <span class="error-message" id="tipologiaError"></span>
+                </div>
+                <div class="form-group">
+                    <label for="stato">Stato</label>
+                    <select id="stato" name="stato" required>
+                        <option value="">Seleziona uno stato</option>
+                        <option value="In corso">In corso</option>
+                        <option value="Risolto">Risolto</option>
+                        <option value="Archiviato">Archiviato</option>
+                    </select>
+                    <span class="error-message" id="statoError"></span>
+                </div>
+                <div class="form-group">
+                    <label for="ID_Controllo">ID Controllo</label>
+                    <input type="number" id="ID_Controllo" name="ID_Controllo" required>
+                    <span class="error-message" id="idControlloError"></span>
+                </div>
+                <button type="submit" class="btn-aggiungi">Aggiungi Segnalazione</button>
+            </form>
+        </div>
+    </div>
+</div>
