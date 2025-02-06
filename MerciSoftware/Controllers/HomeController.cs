@@ -54,8 +54,32 @@ namespace MerciSoftware.Controllers
             var controlli = _database.GetAllControlli();
             var puntiControllo = _database.GetAllPuntiControllo(); 
             var addetti = _database.GetAllAddetti();
+            var passeggeri = _database.GetAllPasseggeri();
 
-            return View(Tuple.Create(controlli, puntiControllo, addetti));
+            return View(Tuple.Create(controlli, puntiControllo, addetti, passeggeri)); 
+        }
+
+
+        [HttpPost]
+        public IActionResult ModificaControllo(Controllo controllo)
+        {
+            if (controllo == null)
+            {
+                ViewBag.Errore = "Dati non validi.";
+                return RedirectToAction("Controlli");
+            }
+
+            try
+            {
+                _database.ModificaControllo(controllo);
+                ViewBag.Successo = "Controllo aggiornato con successo!";
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Errore = "Errore durante la modifica del controllo: " + ex.Message;
+            }
+
+            return RedirectToAction("Controlli");
         }
 
 

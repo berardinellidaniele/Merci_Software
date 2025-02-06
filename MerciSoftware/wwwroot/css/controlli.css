@@ -1,13 +1,33 @@
-﻿/* Stili per Ammontare Dazi Doganali */
-.dazi-container {
+﻿/* Stili generali */
+.controlli-container {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.visualizza-controlli, .dazi-container, .passeggeri-controllati {
     background: #fff;
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
     margin-bottom: 20px;
+    animation: fadeIn 0.5s ease-in-out;
 }
 
-.dazi-table {
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Tabelle */
+.controlli-table, .dazi-table, .passeggeri-table {
     width: 100%;
     border-collapse: collapse;
     background: #fff;
@@ -16,25 +36,106 @@
     overflow: hidden;
 }
 
-    .dazi-table th,
-    .dazi-table td {
+    .controlli-table th, .dazi-table th, .passeggeri-table th,
+    .controlli-table td, .dazi-table td, .passeggeri-table td {
         padding: 15px;
         text-align: left;
         border-bottom: 1px solid #eee;
     }
 
-    .dazi-table th {
+    .controlli-table th, .dazi-table th, .passeggeri-table th {
         background-color: #2c3e50;
         color: #fff;
         font-weight: 600;
     }
 
-    .dazi-table tbody tr:hover {
+    .controlli-table tbody tr:hover, .dazi-table tbody tr:hover, .passeggeri-table tbody tr:hover {
         background-color: #f9f9f9;
     }
 
-/* Stili per Passeggeri Controllati */
-.passeggeri-controllati {
+/* Bottoni */
+.btn-modifica, .btn-salva, .btn-annulla {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background 0.3s ease;
+}
+
+.btn-modifica {
+    background-color: #3498db;
+    color: #fff;
+}
+
+.btn-salva {
+    background-color: #27ae60;
+    color: #fff;
+}
+
+.btn-annulla {
+    background-color: #e74c3c;
+    color: #fff;
+}
+
+    .btn-modifica:hover, .btn-salva:hover, .btn-annulla:hover {
+        opacity: 0.9;
+    }
+
+/* Sezione Modifica Controllo */
+.modifica-controllo-section {
+    display: none;
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    animation: slideIn 0.5s ease-in-out;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+    .form-group label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: 600;
+    }
+
+    .form-group input, .form-group select, .form-group textarea {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        font-size: 14px;
+    }
+
+.error-message {
+    color: #e74c3c;
+    font-size: 12px;
+    margin-top: 5px;
+    display: none;
+}
+
+    .error-message.visible {
+        display: block;
+    }
+
+/* Stili per Passeggeri Controllati nella Giornata */
+.passeggeri-giornata {
     background: #fff;
     padding: 20px;
     border-radius: 10px;
@@ -42,7 +143,15 @@
     margin-bottom: 20px;
 }
 
-.passeggeri-table {
+    .passeggeri-giornata h2 {
+        font-size: 1.8rem;
+        color: #2c3e50;
+        font-weight: 600;
+        text-align: center;
+        margin-bottom: 15px;
+    }
+
+.passeggeri-giornata-table {
     width: 100%;
     border-collapse: collapse;
     background: #fff;
@@ -51,19 +160,19 @@
     overflow: hidden;
 }
 
-    .passeggeri-table th,
-    .passeggeri-table td {
+    .passeggeri-giornata-table th,
+    .passeggeri-giornata-table td {
         padding: 15px;
         text-align: left;
         border-bottom: 1px solid #eee;
     }
 
-    .passeggeri-table th {
+    .passeggeri-giornata-table th {
         background-color: #2c3e50;
         color: #fff;
         font-weight: 600;
     }
 
-    .passeggeri-table tbody tr:hover {
+    .passeggeri-giornata-table tbody tr:hover {
         background-color: #f9f9f9;
     }

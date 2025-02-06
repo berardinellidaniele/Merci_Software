@@ -149,5 +149,34 @@ namespace MerciSoftware.Models
             return conn.Query<PuntoControllo>(sql).ToList();
         }
 
+        public void ModificaControllo(Controllo controllo)
+        {
+            using var conn = CreaConnessione();
+            string sql = @"
+    UPDATE Controllo
+    SET 
+        ID_PuntoControllo = @ID_PuntoControllo,
+        ID_Addetto = @ID_Addetto,
+        dataora_inizio = @dataora_inizio,
+        dataora_fine = @dataora_fine,
+        esito = @esito,
+        dazio_doganale = @dazio_doganale,
+        note = @note
+    WHERE ID_Controllo = @ID_Controllo";
+
+            conn.Execute(sql, new
+            {
+                ID_Controllo = controllo.ID_Controllo,
+                ID_PuntoControllo = controllo.ID_PuntoControllo,
+                ID_Addetto = controllo.ID_Addetto,
+                dataora_inizio = controllo.dataora_inizio,
+                dataora_fine = controllo.dataora_fine,
+                esito = controllo.esito,
+                dazio_doganale = controllo.dazio_doganale,
+                note = controllo.note
+            });
+        }
+
+
     }
 }
